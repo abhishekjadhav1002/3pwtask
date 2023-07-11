@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .skeleton {
+      width: 200px;
+      height: 20px;
+      background-color: #f3f3f3;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>JSONPlaceholder API Data</h1>
+
+  <div id="loader">
+    <div class="skeleton"></div>
+    <div class="skeleton"></div>
+    <div class="skeleton"></div>
+  </div>
+
+  <div id="data" style="display: none;"></div>
+
+  <script>
+    var loader = document.getElementById("loader");
+    var dataContainer = document.getElementById("data");
+
+    fetch("https://jsonplaceholder.typicode.com/posts")
+      .then(response => response.json())
+      .then(data => {
+        loader.style.display = "none";
+
+        data.forEach(item => {
+          var post = document.createElement("div");
+          post.innerHTML = `<h2>${item.title}</h2><p>${item.body}</p>`;
+          dataContainer.appendChild(post);
+        });
+
+        dataContainer.style.display = "block";
+      })
+      .catch(error => {
+        loader.textContent = "Error fetching data";
+        console.error(error);
+      });
+  </script>
+</body>
+</html>
